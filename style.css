@@ -1,0 +1,223 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Video Intro Section */
+#videoIntro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+}
+
+#introVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+    padding-bottom: 20%; 
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#startButton {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    background-color: #6a4c93;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#startButton:hover {
+    background-color: #5a3c83;
+    transform: scale(1.05);
+}
+
+/* Main Content */
+.hidden {
+    display: none;
+}
+
+#mainContent {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f9d6e4, #e1c4f5);
+    color: #4a4a4a;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    margin: 2rem;
+}
+
+.header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #6a4c93;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #7a7a7a;
+    margin-bottom: 2rem;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    font-weight: 600;
+    color: #6a4c93;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e1c4f5;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #4a4a4a;
+    background: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #6a4c93;
+    outline: none;
+}
+
+button[type="submit"] {
+    padding: 0.75rem;
+    background-color: #6a4c93;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #5a3c83;
+}
+
+/* Results Styles */
+.results {
+    margin-top: 2rem;
+}
+
+.results h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #6a4c93;
+    margin-bottom: 1rem;
+}
+
+.results p {
+    font-size: 1rem;
+    color: #7a7a7a;
+    margin-bottom: 1.5rem;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+}
+
+.color-box {
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.color-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    #startButton {
+        padding: 12px 15px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    #startButton {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    
+    .color-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+}
