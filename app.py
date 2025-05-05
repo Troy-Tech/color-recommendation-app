@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+import os
 app = Flask(__name__)
 
 def recommend_colors(eye_color, hair_color, skin_tone):
