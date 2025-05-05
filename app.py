@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request
 import os
-
 app = Flask(__name__)
 
 def recommend_colors(eye_color, hair_color, skin_tone):
     # Define all possible combinations and their corresponding color recommendations
     color_recommendations = {
-        # Blue Eyes Combinations (existing)
+        # Blue Eyes
         ("blue", "blonde", "fair"): ["Pastel Pink", "Light Blue", "Soft Lavender"],
         ("blue", "blonde", "medium"): ["Soft Peach", "Sky Blue", "Lavender Gray"],
         ("blue", "blonde", "olive"): ["Mint Green", "Powder Blue", "Soft Coral"],
@@ -32,97 +30,111 @@ def recommend_colors(eye_color, hair_color, skin_tone):
         ("blue", "gray", "olive"): ["Mint Green", "Powder Blue", "Soft Coral"],
         ("blue", "gray", "dark"): ["Bright White", "Royal Blue", "Soft Pink"],
 
-        # Brown Eyes (enhanced)
+        # [Keep all your other color combinations...]
+        # Brown Eyes
         ("brown", "blonde", "fair"): ["Soft Pink", "Emerald Green", "Warm Coral"],
-        ("brown", "blonde", "medium"): ["Olive Green", "Warm Beige", "Mustard Yellow"],
-        ("brown", "blonde", "olive"): ["Terracotta", "Warm Gray", "Gold"],
-        ("brown", "blonde", "dark"): ["Deep Orange", "Warm White", "Burgundy"],
-        ("brown", "black", "fair"): ["Deep Purple", "Forest Green", "Rich Burgundy"],
-        ("brown", "black", "medium"): ["Dark Green", "Deep Burgundy", "Gold"],
-        ("brown", "black", "olive"): ["Coral", "Aqua", "Taupe"],
-        ("brown", "black", "dark"): ["Cobalt Blue", "Dark Gray", "Gold"],
-        ("brown", "brown", "fair"): ["Salmon", "Lilac", "Bright Pink"],
-        ("brown", "brown", "medium"): ["Soft Purple", "Peach", "Rust"],
-        ("brown", "brown", "olive"): ["Teal", "Charcoal Gray", "Cream"],
-        ("brown", "brown", "dark"): ["Black", "Pure White", "Turquoise"],
-        ("brown", "red", "fair"): ["Soft Orange", "Mauve", "Electric Blue"],
-        ("brown", "red", "medium"): ["Slate Gray", "Ice Blue", "Silver"],
-        ("brown", "red", "olive"): ["Deep Blue", "Beige", "Yellow"],
-        ("brown", "red", "dark"): ["Orange", "Purple", "Pink"],
-        ("brown", "auburn", "fair"): ["Red", "Green", "Blue"],
-        ("brown", "auburn", "medium"): ["Gray", "Auburn", "White"],
-        ("brown", "auburn", "olive"): ["Pastel Pink", "Light Blue", "Soft Lavender"],
-        ("brown", "auburn", "dark"): ["Soft Peach", "Sky Blue", "Lavender Gray"],
-
-        # Green Eyes (new)
-        ("green", "blonde", "fair"): ["Mauve", "Dusty Rose", "Sage Green"],
-        ("green", "blonde", "medium"): ["Moss Green", "Taupe", "Peach"],
-        ("green", "blonde", "olive"): ["Emerald", "Copper", "Cream"],
-        ("green", "blonde", "dark"): ["Jade", "Gold", "Eggplant"],
-        ("green", "black", "fair"): ["Plum", "Forest Green", "Mocha"],
-        ("green", "black", "medium"): ["Hunter Green", "Burgundy", "Camel"],
-        ("green", "black", "olive"): ["Olive", "Rust", "Ivory"],
-        ("green", "black", "dark"): ["Dark Teal", "Chocolate", "Cream"],
-        ("green", "brown", "fair"): ["Mint", "Coral", "Lavender"],
-        ("green", "brown", "medium"): ["Sage", "Terracotta", "Periwinkle"],
-        ("green", "brown", "olive"): ["Army Green", "Burnt Orange", "Lilac"],
-        ("green", "brown", "dark"): ["Bottle Green", "Copper", "Pale Yellow"],
-        ("green", "red", "fair"): ["Dusty Pink", "Seafoam", "Lavender"],
-        ("green", "red", "medium"): ["Rose", "Aqua", "Mauve"],
-        ("green", "red", "olive"): ["Cranberry", "Teal", "Lilac"],
-        ("green", "red", "dark"): ["Ruby", "Navy", "Soft Purple"],
-        ("green", "auburn", "fair"): ["Peach", "Seafoam", "Lavender"],
-        ("green", "auburn", "medium"): ["Coral", "Aqua", "Mauve"],
-        ("green", "auburn", "olive"): ["Terracotta", "Teal", "Lilac"],
-        ("green", "auburn", "dark"): ["Rust", "Navy", "Soft Purple"],
-
-        # Hazel Eyes (new)
-        ("hazel", "blonde", "fair"): ["Soft Gold", "Lavender", "Peach"],
-        ("hazel", "blonde", "medium"): ["Warm Beige", "Sage", "Dusty Pink"],
-        ("hazel", "blonde", "olive"): ["Olive Green", "Terracotta", "Cream"],
-        ("hazel", "blonde", "dark"): ["Gold", "Burgundy", "Eggplant"],
-        ("hazel", "black", "fair"): ["Deep Purple", "Emerald", "Mocha"],
-        ("hazel", "black", "medium"): ["Dark Green", "Burgundy", "Camel"],
-        ("hazel", "black", "olive"): ["Army Green", "Rust", "Ivory"],
-        ("hazel", "black", "dark"): ["Dark Teal", "Chocolate", "Cream"],
-        ("hazel", "brown", "fair"): ["Honey", "Lavender", "Coral"],
-        ("hazel", "brown", "medium"): ["Amber", "Periwinkle", "Terracotta"],
-        ("hazel", "brown", "olive"): ["Olive", "Burnt Orange", "Lilac"],
-        ("hazel", "brown", "dark"): ["Bronze", "Copper", "Pale Yellow"],
-        ("hazel", "red", "fair"): ["Apricot", "Seafoam", "Lavender"],
-        ("hazel", "red", "medium"): ["Copper", "Aqua", "Mauve"],
-        ("hazel", "red", "olive"): ["Rust", "Teal", "Lilac"],
-        ("hazel", "red", "dark"): ["Deep Red", "Navy", "Soft Purple"],
-        ("hazel", "auburn", "fair"): ["Peach", "Seafoam", "Lavender"],
-        ("hazel", "auburn", "medium"): ["Amber", "Aqua", "Mauve"],
-        ("hazel", "auburn", "olive"): ["Terracotta", "Teal", "Lilac"],
-        ("hazel", "auburn", "dark"): ["Rust", "Navy", "Soft Purple"],
-
-        # Gray Eyes (new)
-        ("gray", "blonde", "fair"): ["Icy Blue", "Soft Pink", "Lavender Gray"],
-        ("gray", "blonde", "medium"): ["Slate Blue", "Dusty Rose", "Mauve"],
-        ("gray", "blonde", "olive"): ["Steel Blue", "Taupe", "Rose Quartz"],
-        ("gray", "blonde", "dark"): ["Navy", "Deep Rose", "Silver"],
-        ("gray", "black", "fair"): ["Charcoal", "Ice Blue", "Pale Pink"],
-        ("gray", "black", "medium"): ["Graphite", "Powder Blue", "Blush"],
-        ("gray", "black", "olive"): ["Slate Gray", "Soft Teal", "Mauve"],
-        ("gray", "black", "dark"): ["Black", "Silver", "Deep Purple"],
-        ("gray", "brown", "fair"): ["Cool Gray", "Lavender", "Pale Yellow"],
-        ("gray", "brown", "medium"): ["Stone", "Periwinkle", "Peach"],
-        ("gray", "brown", "olive"): ["Pewter", "Dusty Blue", "Soft Coral"],
-        ("gray", "brown", "dark"): ["Dark Gray", "Pale Blue", "Warm White"],
-        ("gray", "red", "fair"): ["Cool Pink", "Seafoam", "Lavender"],
-        ("gray", "red", "medium"): ["Rose Gray", "Aqua", "Mauve"],
-        ("gray", "red", "olive"): ["Taupe", "Teal", "Lilac"],
-        ("gray", "red", "dark"): ["Deep Rose", "Navy", "Soft Purple"],
-        ("gray", "auburn", "fair"): ["Dusty Pink", "Seafoam", "Lavender"],
-        ("gray", "auburn", "medium"): ["Rose", "Aqua", "Mauve"],
-        ("gray", "auburn", "olive"): ["Taupe", "Teal", "Lilac"],
-        ("gray", "auburn", "dark"): ["Deep Rose", "Navy", "Soft Purple"]
+        # [Rest of your existing color recommendations...]
     }
 
     # Return the recommended colors for the given combination, or default if not found
     return color_recommendations.get((eye_color, hair_color, skin_tone), ["Neutral Beige", "White", "Navy Blue"])
 
-# [Rest of your existing functions (get_text_color, is_light_color) remain unchanged]
-# [Your existing route and app setup remain unchanged]
+def get_text_color(color_name):
+    # Map color names to their actual hex values
+    color_map = {
+        "pastel pink": "#ffd1dc",
+        "light blue": "#add8e6",
+        "soft lavender": "#e6e6fa",
+        "soft peach": "#ffd8b1",
+        "sky blue": "#87ceeb",
+        "lavender gray": "#c4c3d0",
+        "mint green": "#98ff98",
+        "powder blue": "#b0e0e6",
+        "soft coral": "#f08080",
+        "bright white": "#ffffff",
+        "royal blue": "#4169e1",
+        "soft pink": "#ffb6c1",
+        "navy blue": "#000080",
+        "neutral beige": "#f5f5dc",
+        "white": "#ffffff",
+        "emerald green": "#50c878",
+        "warm coral": "#ff7f50",
+        "olive green": "#808000",
+        "warm beige": "#f5cba7",
+        "mustard yellow": "#ffdb58",
+        "terracotta": "#e2725b",
+        "warm gray": "#a8a8a8",
+        "gold": "#ffd700",
+        "deep orange": "#ff8c00",
+        "warm white": "#f5f5f5",
+        "burgundy": "#800020",
+        "deep purple": "#36013f",
+        "forest green": "#228b22",
+        "rich burgundy": "#800020",
+        "dark green": "#006400",
+        "deep burgundy": "#800020",
+        "coral": "#ff7f50",
+        "aqua": "#00ffff",
+        "taupe": "#483c32",
+        "cobalt blue": "#0047ab",
+        "dark gray": "#a9a9a9",
+        "salmon": "#fa8072",
+        "lilac": "#c8a2c8",
+        "bright pink": "#ff007f",
+        "soft purple": "#b19cd9",
+        "peach": "#ffe5b4",
+        "rust": "#b7410e",
+        "teal": "#008080",
+        "charcoal gray": "#36454f",
+        "cream": "#fffdd0",
+        "black": "#000000",
+        "pure white": "#ffffff",
+        "turquoise": "#40e0d0",
+        "soft orange": "#ffcc99",
+        "mauve": "#e0b0ff",
+        "electric blue": "#7df9ff",
+        "slate gray": "#708090",
+        "ice blue": "#99ffff",
+        "silver": "#c0c0c0",
+        "deep blue": "#00008b",
+        "beige": "#f5f5dc",
+        "yellow": "#ffff00",
+        "orange": "#ffa500",
+        "purple": "#800080",
+        "pink": "#ffc0cb",
+        "red": "#ff0000",
+        "green": "#008000",
+        "blue": "#0000ff",
+        "gray": "#808080",
+        "auburn": "#a52a2a"
+    }
+    # Default to black if no mapping is found
+    return color_map.get(color_name.lower(), "#000000")
+
+def is_light_color(hex_color):
+    # Convert hex to RGB
+    hex_color = hex_color.lstrip('#')
+    rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    # Calculate luminance
+    luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2])/255
+    return luminance > 0.5
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        eye_color = request.form.get("eye_color").strip().lower()
+        hair_color = request.form.get("hair_color").strip().lower()
+        skin_tone = request.form.get("skin_tone").strip().lower()
+        colors = recommend_colors(eye_color, hair_color, skin_tone)
+        return render_template("index.html", 
+                            colors=colors, 
+                            eye_color=eye_color, 
+                            hair_color=hair_color, 
+                            skin_tone=skin_tone,
+                            get_text_color=get_text_color,
+                            is_light_color=is_light_color)
+    return render_template("index.html", colors=None)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
